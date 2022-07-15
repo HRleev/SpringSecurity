@@ -7,4 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //레파지토리 어노테이션 불필요
 
 public interface UserRepository extends JpaRepository<User, Integer> {
+
+    //findBy규칙 -
+    public User findByUsername(String username);//Jpa
 }
