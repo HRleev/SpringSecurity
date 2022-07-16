@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     //findBy규칙 -
-    public User findByUsername(String username);//Jpa
+    public User findByUsername(String username);
+
 }
