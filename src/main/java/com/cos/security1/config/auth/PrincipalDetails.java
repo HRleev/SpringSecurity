@@ -9,19 +9,36 @@ package com.cos.security1.config.auth;
 //Security Session -> Authentication 객체=>UserDetails 타입
 //Security Session get >Authentication get=>UserDetails get 하면 userObject 에 접근 가능
 import com.cos.security1.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
+    private Map<String, Object> attributes;
     private User user;//콤포지션
 
+
+    //일반 로그인시 사용하는 생성자
     public PrincipalDetails(User user) {
         this.user = user;
     }
+
+    //OAuth 로그인시 사용하는 생성자
+    public PrincipalDetails(User user,Map<String,Object>attributes) {
+        this.user = user;
+        this.attributes=attributes;
+    }
+
+
+
+
     //해당 User의 권한을 리턴 하는곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,5 +80,14 @@ public class PrincipalDetails implements UserDetails {
     @Override //니 계정이 활성화 되었니
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+    @Override
+    public String getName() {
+        return null;
     }
 }

@@ -1,12 +1,17 @@
 package com.cos.security1.controller;
 
 
+import com.cos.security1.config.auth.PrincipalDetails;
 import com.cos.security1.model.User;
 import com.cos.security1.repository.UserRepository;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +25,21 @@ public class IndexController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+    //Authentication
+    //UserDetail -> 일반로그인
+    //UAuth2User -> 구글 로그인
+
+
+
     @GetMapping({"/", ""})
     public String index() {
         return "index";
     }
 
     @GetMapping("/user")
-    public @ResponseBody String user() {
+    public String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails:"+principalDetails.getUser());
         return "user";
     }
 
